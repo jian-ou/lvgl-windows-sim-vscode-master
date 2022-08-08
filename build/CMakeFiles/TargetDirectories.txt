@@ -1,0 +1,3 @@
+C:/Users/Administrator/Desktop/lvgl-windows-sim-vscode-master/build/CMakeFiles/LVGL_SIM.dir
+C:/Users/Administrator/Desktop/lvgl-windows-sim-vscode-master/build/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/Desktop/lvgl-windows-sim-vscode-master/build/CMakeFiles/rebuild_cache.dir
