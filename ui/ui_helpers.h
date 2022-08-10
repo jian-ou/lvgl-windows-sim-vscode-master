@@ -1,10 +1,10 @@
 // SquareLine LVGL GENERATED FILE
 // EDITOR VERSION: SquareLine Studio 1.0.5
 // LVGL VERSION: 8.2
-// PROJECT: SquareLine_Project
+// PROJECT: 3d_printer
 
-#ifndef _SQUARELINE_PROJECT_UI_HELPERS_H
-#define _SQUARELINE_PROJECT_UI_HELPERS_H
+#ifndef _3D_PRINTER_UI_HELPERS_H
+#define _3D_PRINTER_UI_HELPERS_H
 
 #if __has_include("lvgl.h")
 #include "lvgl.h"

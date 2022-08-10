@@ -7,8 +7,7 @@
 #define MOUSE_H
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /*********************
@@ -24,51 +23,54 @@ extern "C"
 
 #if USE_MOUSE
 
+#warning "Deprecated, use the SDL driver instead. See lv_drivers/sdl/sdl.c"
+
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
-#include "../../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #endif
 
-#ifndef MONITOR_SDL_INCLUDE_PATH
-#define MONITOR_SDL_INCLUDE_PATH <SDL2/SDL.h>
+#if USE_SDL_GPU
+#include "../sdl/sdl_gpu.h"
+#else
+#include "../sdl/sdl.h"
 #endif
 
-#include MONITOR_SDL_INCLUDE_PATH
+/*********************
+ *      DEFINES
+ *********************/
 
-    /*********************
-     *      DEFINES
-     *********************/
+/**********************
+ *      TYPEDEFS
+ **********************/
 
-    /**********************
-     *      TYPEDEFS
-     **********************/
+/**********************
+ * GLOBAL PROTOTYPES
+ **********************/
 
-    /**********************
-     * GLOBAL PROTOTYPES
-     **********************/
 
-    /**
-     * Initialize the mouse
-     */
-    void mouse_init(void);
+/**
+ * Initialize the mouse
+ */
+static inline void mouse_init(void)
+{
+    /*Nothing to do*/
+}
 
-    /**
-     * Get the current position and state of the mouse
-     * @param indev_drv pointer to the related input device driver
-     * @param data store the mouse data here
-     * @return false: because the points are not buffered, so no more data to be read
-     */
-    bool mouse_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data);
+/**
+ * Get the current position and state of the mouse
+ * @param indev_drv pointer to the related input device driver
+ * @param data store the mouse data here
+ */
+void mouse_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+{
+    sdl_mouse_read(indev_drv, data);
+}
 
-    /**
-     * It will be called from the main SDL thread
-     */
-    void mouse_handler(SDL_Event *event);
-
-    /**********************
-     *      MACROS
-     **********************/
+/**********************
+ *      MACROS
+ **********************/
 
 #endif /* USE_MOUSE */
 

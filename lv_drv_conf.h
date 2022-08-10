@@ -1,12 +1,13 @@
 /**
  * @file lv_drv_conf.h
- * Configuration file for v8.1.0-dev
+ * Configuration file for v8.2.0-dev
  */
 
 /*
  * COPY THIS FILE AS lv_drv_conf.h
  */
 
+/* clang-format off */
 #if 1 /*Set it to "1" to enable the content*/
 
 #ifndef LV_DRV_CONF_H
@@ -80,29 +81,37 @@
  *********************/
 
 /*-------------------
- *  Monitor of PC
+ *  SDL
  *-------------------*/
-#ifndef USE_MONITOR
-#  define USE_MONITOR         1
+
+/* SDL based drivers for display, mouse, mousewheel and keyboard*/
+#ifndef USE_SDL
+# define USE_SDL 	1
 #endif
 
-#if USE_MONITOR
-#  define MONITOR_HOR_RES     LV_HOR_RES_MAX
-#  define MONITOR_VER_RES     LV_VER_RES_MAX
+/* Hardware accelerated SDL driver */
+#ifndef USE_SDL_GPU
+# define USE_SDL_GPU 0
+#endif
+
+#if USE_SDL || USE_SDL_GPU
+#  define SDL_HOR_RES     800
+#  define SDL_VER_RES     480
 
 /* Scale window by this factor (useful when simulating small screens) */
-#  define MONITOR_ZOOM        1
+#  define SDL_ZOOM        1
 
 /* Used to test true double buffering with only address changing.
- * Use 2 draw buffers, bith with MONITOR_HOR_RES x MONITOR_VER_RES size*/
-#  define MONITOR_DOUBLE_BUFFERED 0
+ * Use 2 draw buffers, bith with SDL_HOR_RES x SDL_VER_RES size*/
+#  define SDL_DOUBLE_BUFFERED 0
 
 /*Eclipse: <SDL2/SDL.h>    Visual Studio: <SDL.h>*/
-#  define MONITOR_SDL_INCLUDE_PATH    "../../SDL2/include/SDL.h"
+#  define SDL_INCLUDE_PATH    <SDL2/SDL.h>
 
 /*Open two windows to test multi display support*/
-#  define MONITOR_DUAL            0
+#  define SDL_DUAL_DISPLAY            0
 #endif
+
 
 /*-----------------------------------
  *  Native Windows (including mouse)
@@ -120,7 +129,7 @@
  *  Native Windows (win32drv)
  *---------------------------*/
 #ifndef USE_WIN32DRV
-#  define USE_WIN32DRV       1
+#  define USE_WIN32DRV       0
 #endif
 
 #if USE_WIN32DRV
@@ -143,9 +152,18 @@
 #endif
 
 #if USE_WAYLAND
-#  define WAYLAND_HOR_RES      480
-#  define WAYLAND_VER_RES      320
-#  define WAYLAND_SURF_TITLE   "LVGL"
+/* Support for client-side decorations */
+#  ifndef LV_WAYLAND_CLIENT_SIDE_DECORATIONS
+#    define LV_WAYLAND_CLIENT_SIDE_DECORATIONS 1
+#  endif
+/* Support for (deprecated) wl-shell protocol */
+#  ifndef LV_WAYLAND_WL_SHELL
+#    define LV_WAYLAND_WL_SHELL 1
+#  endif
+/* Support for xdg-shell protocol */
+#  ifndef LV_WAYLAND_XDG_SHELL
+#    define LV_WAYLAND_XDG_SHELL 0
+#  endif
 #endif
 
 /*----------------
@@ -348,39 +366,23 @@
 /*No settings*/
 #endif
 
-
-/*---------------------------------------
- * Mouse or touchpad on PC (using SDL)
- *-------------------------------------*/
-#ifndef USE_MOUSE
-#  define USE_MOUSE           1
-#endif
-
-#if USE_MOUSE
-/*No settings*/
-#endif
-
-/*-------------------------------------------
- * Mousewheel as encoder on PC (using SDL)
- *------------------------------------------*/
-#ifndef USE_MOUSEWHEEL
-#  define USE_MOUSEWHEEL      1
-#endif
-
-#if USE_MOUSEWHEEL
-/*No settings*/
-#endif
-
 /*-------------------------------------------------
- * Touchscreen as libinput interface (for Linux based systems)
+ * Touchscreen, mouse/touchpad or keyboard as libinput interface (for Linux based systems)
  *------------------------------------------------*/
 #ifndef USE_LIBINPUT
 #  define USE_LIBINPUT           0
 #endif
 
-#if USE_LIBINPUT
+#ifndef USE_BSD_LIBINPUT
+#  define USE_BSD_LIBINPUT       0
+#endif
+
+#if USE_LIBINPUT || USE_BSD_LIBINPUT
+/*If only a single device of the same type is connected, you can also auto detect it, e.g.:
+ *#define LIBINPUT_NAME   libinput_find_dev(LIBINPUT_CAPABILITY_TOUCH, false)*/
 #  define LIBINPUT_NAME   "/dev/input/event0"        /*You can use the "evtest" Linux tool to get the list of devices and test them*/
-#endif  /*USE_LIBINPUT*/
+
+#endif  /*USE_LIBINPUT || USE_BSD_LIBINPUT*/
 
 /*-------------------------------------------------
  * Mouse or touchpad as evdev interface (for Linux based systems)
@@ -407,11 +409,29 @@
 #  endif  /*EVDEV_CALIBRATE*/
 #endif  /*USE_EVDEV*/
 
+/*-------------------------------------------------
+ * Full keyboard support for evdev and libinput interface
+ *------------------------------------------------*/
+#  ifndef USE_XKB
+#    define USE_XKB           0
+#  endif
+
+#if USE_LIBINPUT || USE_BSD_LIBINPUT || USE_EVDEV || USE_BSD_EVDEV
+#  if USE_XKB
+#    define XKB_KEY_MAP       { .rules = NULL, \
+                                .model = "pc101", \
+                                .layout = "us", \
+                                .variant = NULL, \
+                                .options = NULL } /*"setxkbmap -query" can help find the right values for your keyboard*/
+#  endif  /*USE_XKB*/
+#endif  /*USE_LIBINPUT || USE_BSD_LIBINPUT || USE_EVDEV || USE_BSD_EVDEV*/
+
 /*-------------------------------
  *   Keyboard of a PC (using SDL)
  *------------------------------*/
+/*DEPRECATED: Use the SDL driver instead. */
 #ifndef USE_KEYBOARD
-#  define USE_KEYBOARD        1
+#  define USE_KEYBOARD        0
 #endif
 
 #if USE_KEYBOARD
