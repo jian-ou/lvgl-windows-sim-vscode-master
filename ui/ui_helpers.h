@@ -1,10 +1,10 @@
 // SquareLine LVGL GENERATED FILE
 // EDITOR VERSION: SquareLine Studio 1.2.1
 // LVGL VERSION: 8.3.4
-// PROJECT: ems001
+// PROJECT: Futuristic_Ebike
 
-#ifndef _EMS001_UI_HELPERS_H
-#define _EMS001_UI_HELPERS_H
+#ifndef _FUTURISTIC_EBIKE_UI_HELPERS_H
+#define _FUTURISTIC_EBIKE_UI_HELPERS_H
 
 #include "ui.h"
 

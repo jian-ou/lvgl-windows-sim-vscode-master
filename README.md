@@ -6,6 +6,7 @@
 * CMake版本：3.24.0
 * vscode
 * minGW
+* SDL2 2.26.4
 * SquareLine Studio版本：1.2.1
 
   由于要使用官方的设计工具SquareLine Studio，官方也是生成对应lvgl 8.2版本的文件，尝试过使用把官方的代码用不同版本的LVGL库去跑，应该是有一点小问题，一些函数的名字是对应不上的。
