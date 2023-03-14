@@ -1,6 +1,6 @@
 /**
  * @file lv_drv_conf.h
- * Configuration file for v8.2.0-dev
+ * Configuration file for v8.1.1-dev
  */
 
 /*
@@ -95,8 +95,8 @@
 #endif
 
 #if USE_SDL || USE_SDL_GPU
-#  define SDL_HOR_RES     800
-#  define SDL_VER_RES     480
+#  define SDL_HOR_RES     240
+#  define SDL_VER_RES     280
 
 /* Scale window by this factor (useful when simulating small screens) */
 #  define SDL_ZOOM        1
@@ -106,7 +106,7 @@
 #  define SDL_DOUBLE_BUFFERED 0
 
 /*Eclipse: <SDL2/SDL.h>    Visual Studio: <SDL.h>*/
-#  define SDL_INCLUDE_PATH    <SDL2/SDL.h>
+#  define SDL_INCLUDE_PATH    "../../SDL2/include/SDL.h"
 
 /*Open two windows to test multi display support*/
 #  define SDL_DUAL_DISPLAY            0

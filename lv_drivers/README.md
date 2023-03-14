@@ -1,4 +1,4 @@
-# Display and Touch pad drivers
+# Display and Touch pad drivers 
 
 Display controller and touchpad driver to can be directly used with [LittlevGL](https://littlevgl.com).
 
